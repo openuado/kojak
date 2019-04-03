@@ -1,6 +1,6 @@
 # kojak
 
-[![Build Status](https://travis-ci.org/4383/kojak.svg?branch=devel)](https://travis-ci.org/4383/kojak)
+[![Build Status](https://travis-ci.org/4383/kojak.svg?branch=master)](https://travis-ci.org/4383/kojak)
 ![PyPI](https://img.shields.io/pypi/v/kojak.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/kojak.svg)
 ![PyPI - Status](https://img.shields.io/pypi/status/kojak.svg)
