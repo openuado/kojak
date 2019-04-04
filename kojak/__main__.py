@@ -22,7 +22,7 @@ def main():
 
     analyze = kojak.parse_file(filename.read())
 
-    print('List import by the module:')
+    print('List imports by the module:')
     for imp in kojak.get_import(analyze):
         result = ''
 
