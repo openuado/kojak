@@ -30,8 +30,6 @@ $ pip install -U kojak
 
 ## Usage
 
-### Help and options
-
 ```shell
 $ kojak <path to your python file>
 
