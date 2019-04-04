@@ -18,9 +18,9 @@ tree syntax (AST)](https://docs.python.org/3/library/ast.html).
 Really young project with poor functionalities for now.
 
 ## Features
-- Get class and methods
-- Get function from python module
-- Get list imports
+- Get classes and methods
+- Get functions from python modules
+- Get list of imports
 
 ## Install or Update kojak
 
