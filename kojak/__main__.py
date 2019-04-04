@@ -1,7 +1,7 @@
 import argparse
 from sys import exit
 
-import kojak
+from kojak.utils import get_classes, get_functions, get_imports, parse_file
 
 
 def argparser():
@@ -20,10 +20,10 @@ def main():
     if not filename:
         return 0
 
-    analyze = kojak.parse_file(filename.read())
+    analyze = parse_file(filename.read())
 
     print('List imports by the module:')
-    for imp in kojak.get_import(analyze):
+    for imp in get_imports(analyze):
         result = ''
 
         if imp.module:
@@ -38,11 +38,11 @@ def main():
 
         print('\t-{result}'.format(result=result))
 
-    for cls in kojak.get_classes(analyze):
+    for cls in get_classes(analyze):
         print('List classes by the module:')
         print(cls.name)
 
-        for func in kojak.get_functions(cls.node):
+        for func in get_functions(cls.node):
             print('\t-{}'.format(func.name))
 
 
