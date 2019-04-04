@@ -1,4 +1,4 @@
-# kojak
+# kojak ![](statics/logo-64x64.png) 
 
 [![Build Status](https://travis-ci.org/4383/kojak.svg?branch=master)](https://travis-ci.org/4383/kojak)
 ![PyPI](https://img.shields.io/pypi/v/kojak.svg)
