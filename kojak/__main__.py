@@ -1,22 +1,7 @@
 import argparse
-import ast
-from collections import namedtuple
 from sys import exit
 
-
-def _get_import(root):
-    Import = namedtuple('Import', ['module', 'name', 'alias'])
-
-    for node in ast.iter_child_nodes(root):
-        if isinstance(node, ast.Import):
-            module = []
-        elif isinstance(node, ast.ImportFrom):
-            module = node.module
-        else:
-            continue
-
-        for name in node.names:
-            yield Import(module, name.name, name.asname)
+import kojak
 
 
 def argparser():
@@ -35,23 +20,10 @@ def main():
     if not filename:
         return 0
 
-    classes = {}
-    functions = []
-    analyze = ast.parse(filename.read())
-
-    for node in analyze.body:
-        if 'lineno' not in dir(node) or 'col_offset' not in dir(node):
-            continue
-        if type(node) is ast.FunctionDef:
-            functions.append(node.name)
-        elif type(node) is ast.ClassDef:
-            classes.update({node.name: []})
-            for member in node.body:
-                if type(member) is ast.FunctionDef:
-                    classes[node.name].append(member.name)
+    analyze = kojak.parse_file(filename.read())
 
     print('List import by the module:')
-    for imp in _get_import(analyze):
+    for imp in kojak.get_import(analyze):
         result = ''
 
         if imp.module:
@@ -66,12 +38,12 @@ def main():
 
         print('\t-{result}'.format(result=result))
 
-    for cls in classes:
+    for cls in kojak.get_classes(analyze):
         print('List classes by the module:')
-        print(cls)
+        print(cls.name)
 
-        for meth in classes[cls]:
-            print('\t-{}'.format(meth))
+        for func in kojak.get_functions(cls.node):
+            print('\t-{}'.format(func.name))
 
 
 if __name__ == "__main__":
