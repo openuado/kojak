@@ -136,7 +136,7 @@ $ tox -e pep8
 
 Unit tests:
 ```shell
-$ tox # by default run tests en python 3.4, 3.5, 3.6
+$ tox
 ```
 
 > Note: If you have just a specific version of python installed on your system, you can test like this:
