@@ -20,6 +20,7 @@ Really young project with poor functionalities for now.
 ## Features
 - Get class and methods
 - Get function from python module
+- Get list imports
 
 ## Install or Update kojak
 
@@ -33,6 +34,13 @@ $ pip install -U kojak
 
 ```shell
 $ kojak <path to your python file>
+
+List imports by the module:
+        -Import argparse
+        -From sys import exit
+        -From kojak.utils import get_classes
+
+List classes by the module:
 Class1
     - method11
     - method12
