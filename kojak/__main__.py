@@ -1,7 +1,7 @@
 import argparse
 from sys import exit
 
-from kojak.utils import get_classes, get_functions, get_imports, parse_file
+from kojak.utils import Analyze
 
 
 def argparser():
@@ -20,10 +20,10 @@ def main():
     if not filename:
         return 0
 
-    analyze = parse_file(filename.read())
+    analyze = Analyze(filename)
+    all_import = []
 
-    print('List imports by the module:')
-    for imp in get_imports(analyze):
+    for imp in analyze.get_imports():
         result = ''
 
         if imp.module:
@@ -36,14 +36,31 @@ def main():
         if imp.alias:
             result += ' with an alias {alias}'.format(alias=imp.alias)
 
-        print('\t-{result}'.format(result=result))
+        all_import.append('\t-{result}'.format(result=result))
 
-    for cls in get_classes(analyze):
-        print('List classes by the module:')
-        print(cls.name)
+    print('This module {module} contains {count} imports'.format(
+        module=analyze.path.name, count=analyze.count_imports))
+    print('\n'.join(all_import))
 
-        for func in get_functions(cls.node):
-            print('\t-{}'.format(func.name))
+    all_class = {}
+    for cls in analyze.get_classes():
+        all_class[cls.name] = []
+
+        for func in analyze.get_functions(cls.node):
+            all_class[cls.name].append('\t\t-{name}'.format(name=func.name))
+
+    word_class = 'class' \
+        if analyze.count_classes == 1 else 'classes'
+    print('This module contains {count} {word_class}:'.format(
+        count=analyze.count_classes, word_class=word_class))
+
+    for key, value in all_class.items():
+        print('\t-{name}'.format(name=key))
+        print('\n'.join(value))
+
+    if analyze.count_classes == 0:
+        print("This module {module} doesn't contains class.".format(
+            module=analyze.path.name))
 
 
 if __name__ == "__main__":
