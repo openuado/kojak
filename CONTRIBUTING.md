@@ -90,7 +90,6 @@ If you're hitting a bug in kojak or just want to experiment with adding a featur
 - [pbr](https://docs.openstack.org/pbr/latest/)
 - [flake8](http://flake8.pycqa.org/en/latest/)
 - [tox](https://tox.readthedocs.io/en/latest/)
-- python2.7+
 
 #### Cloning
 
@@ -137,7 +136,7 @@ $ tox -e pep8
 
 Unit tests:
 ```shell
-$ tox # by default run tests en python 2.7, 3.4, 3.5, 3.6
+$ tox # by default run tests en python 3.4, 3.5, 3.6
 ```
 
 > Note: If you have just a specific version of python installed on your system, you can test like this:
