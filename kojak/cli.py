@@ -2,12 +2,7 @@ import argparse
 import os
 import sys
 
-
-def is_valid_path(path):
-    if not os.path.exists(path):
-        raise IOError("{path} is not a valid path".format(path=path))
-    if not os.access(path, os.R_OK):
-        raise OSError("{path} is not a readable path".format(path=path))
+from kojak.common import is_valid_path, pluralize
 
 
 class readable_path(argparse.Action):
@@ -33,18 +28,6 @@ def argparser():
     parser.add_argument('-V', '--version', action='store_true',
                         help='Only display the kojak version number')
     return parser.parse_args()
-
-
-def pluralize(iterable, singular, plural=None):
-    if not plural:
-        plural = "{singular}s".format(singular=singular)
-    if not iterable:
-        return singular
-    if isinstance(iterable, (list, tuple, dict)):
-        iterable = len(iterable)
-    elif isinstance(iterable, str):
-        iterable = int(iterable)
-    return singular if iterable == 1 else plural
 
 
 def imports(module):

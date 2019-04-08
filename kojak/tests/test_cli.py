@@ -7,9 +7,8 @@ import unittest
 
 from kojak.cli import classes
 from kojak.cli import imports
-from kojak.cli import is_valid_path
-from kojak.cli import pluralize
 from kojak.cli import summarize
+from kojak.common import is_valid_path, pluralize
 from kojak.utils import Analyze
 from kojak.utils import Module
 
@@ -30,8 +29,7 @@ class TestCLI(unittest.TestCase):
         self.assertEqual(pluralize([1], 'test', 'tests'), 'test')
         self.assertEqual(pluralize([1], 'test'), 'test')
         self.assertEqual(pluralize([], 'test', 'tests'), 'test')
-        with self.assertRaises(ValueError):
-            self.assertEqual(pluralize("ddd5", 'test', 'tests'), 'tests')
+        self.assertEqual(pluralize("ddd5", 'test', 'tests'), 'test')
 
     def test_is_valid_path(self):
         with tempfile.TemporaryDirectory() as tmpdir:
