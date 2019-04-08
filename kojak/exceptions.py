@@ -1,0 +1,2 @@
+class KojakException(Exception):
+    pass
