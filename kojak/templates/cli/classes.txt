@@ -1,0 +1,13 @@
+{% for cls in module.classes -%}
+{% if loop.first -%}
+{% trans count=module.classes|length %}
+Module class:
+{% pluralize %}
+Module classes:
+{% endtrans %}
+{%- endif %}
+    {{ cls.name }}
+    {% for method in cls.methods -%}
+        - {{ method.name }}
+    {% endfor -%}
+{%- endfor %}

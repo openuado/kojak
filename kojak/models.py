@@ -1,19 +1,58 @@
 import ast
-import glob
 import os
 from collections import namedtuple
 
+from kojak.common import python_files
 from kojak.exceptions import KojakException
 
-Import = namedtuple('Import', ['module', 'name', 'alias'])
-Class = namedtuple('Class', ['node', 'name'])
-Method = namedtuple('Method', ['node', 'name', 'docstring'])
+Import = namedtuple("Import", ["module", "name", "alias"])
+Class = namedtuple("Class", ["node", "name", "methods"])
+Method = namedtuple("Method", ["node", "name", "docstring"])
+
+
+def get_functions(root):
+    funcs = []
+    for node in ast.iter_child_nodes(root):
+        if isinstance(node, ast.FunctionDef):
+            funcs.append(Method(node, node.name, ast.get_docstring(node)))
+    return funcs
+
+
+class Classes(list):
+    def __init__(self, root):
+        """Initialize list of classes."""
+        super(Classes, self).__init__()
+        for node in ast.iter_child_nodes(root):
+            if isinstance(node, ast.ClassDef):
+                meths = get_functions(node)
+                self.append(Class(node, node.name, meths))
+
+    def __str__(self):
+        """Textual representation of classes."""
+        return "\n".join(self.name)
+
+
+class Imports(list):
+    def __init__(self, root):
+        """Initialize list of imports."""
+        super(Imports, self).__init__()
+        for node in ast.iter_child_nodes(root):
+            if isinstance(node, ast.Import):
+                module = []
+            elif isinstance(node, ast.ImportFrom):
+                module = node.module
+            else:
+                continue
+
+            for name in node.names:
+                self.append(Import(module, name.name, name.asname))
+
+    def __str__(self):
+        """Textual representation of imports."""
+        return "\n".join(self.name)
 
 
 class Module:
-    count_imports = 0
-    count_classes = 0
-
     def __init__(self, path):
         """To initalize the analyze class.
 
@@ -25,38 +64,23 @@ class Module:
         try:
             self.root = ast.parse(self.path.read())
         except SyntaxError:
-            raise KojakException("Invalid python file {filename}".format(
-                filename=self.name))
+            raise KojakException(
+                "Invalid python file {filename}".format(filename=self.name)
+            )
+        self.imports = Imports(self.root)
+        self.classes = Classes(self.root)
 
-    def get_imports(self):
-        for node in ast.iter_child_nodes(self.root):
-            if isinstance(node, ast.Import):
-                module = []
-            elif isinstance(node, ast.ImportFrom):
-                module = node.module
-            else:
-                continue
-
-            for name in node.names:
-                self.count_imports += 1
-                yield Import(module, name.name, name.asname)
-
-    def get_classes(self):
-        for node in ast.iter_child_nodes(self.root):
-            if isinstance(node, ast.ClassDef):
-                self.count_classes += 1
-                yield Class(node, node.name)
-
-    def get_functions(self, root=None):
-        root = root if root else self.root
-
-        for node in ast.iter_child_nodes(root):
-            if isinstance(node, ast.FunctionDef):
-                yield Method(node, node.name, ast.get_docstring(node))
+    def __str__(self):
+        """Textual representation of module."""
+        return self.name
 
 
 class Analyze(object):
     """To analyze the file."""
+
+    modules = []
+    imports = 0
+    classes = 0
 
     def __init__(self, path):
         """To initalize the analyze class.
@@ -67,29 +91,22 @@ class Analyze(object):
         self.path = path
         self.modules = []
         if os.path.isfile(self.path):
-            with open(self.path, 'r') as pyfile:
+            with open(self.path, "r") as pyfile:
                 self.modules.append(Module(pyfile))
         elif os.path.isdir(self.path):
-            for pyfile in glob.glob('{path}/**/*.py'.format(path=self.path),
-                                    recursive=True):
-                with open(pyfile) as module:
-                    self.modules.append(Module(module))
+            for module in python_files(self.path):
+                with open(module, "r") as pyfile:
+                    current_module = Module(pyfile)
+                    self.modules.append(current_module)
         else:
             raise KojakException("Path not found: {path}".format(path=path))
+        self._count_imports()
+        self._count_classes()
 
-    def get_modules(self):
-        """Retrieve modules."""
+    def _count_imports(self):
         for module in self.modules:
-            yield module
+            self.imports += len(module.imports)
 
-    def get_global_stats(self):
-        """Retrieve global stats of the analyze."""
-        imports = 0
-        classes = 0
-        modules = len(self.modules)
+    def _count_classes(self):
         for module in self.modules:
-            [el for el in module.get_classes()]
-            [el for el in module.get_imports()]
-            imports += module.count_imports
-            classes += module.count_classes
-        return {"imports": imports, "classes": classes, "modules": modules}
+            self.classes += len(module.classes)
