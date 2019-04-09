@@ -56,11 +56,17 @@ def imports(module):
 
 def classes(module):
     all_class = {}
+
     for cls in module.get_classes():
-        all_class[cls.name] = []
+        all_class[cls.name] = {
+            'methods': [],
+            'count_methods': 0
+        }
 
         for func in module.get_functions(cls.node):
-            all_class[cls.name].append('\t\t-{name}'.format(name=func.name))
+            all_class[cls.name]['methods'].append(
+                '\t\t-{name}'.format(name=func.name))
+            all_class[cls.name]['count_methods'] += 1
 
     if module.count_classes > 1:
         print('This module contains {count} {word_class}:'.format(
@@ -71,8 +77,10 @@ def classes(module):
             module=module.path.name))
 
     for key, value in all_class.items():
-        print('\t-{name}'.format(name=key))
-        print('\n'.join(value))
+        print('\t-The class {name} contains {count} {word_methods}'.format(
+            name=key, count=value['count_methods'], word_methods=pluralize(
+                value['count_methods'], 'method', 'methods')))
+        print('\n'.join(value['methods']))
 
 
 def summarize(analyze):
