@@ -68,7 +68,7 @@ def classes(module):
                 '\t\t-{name}'.format(name=func.name))
             all_class[cls.name]['count_methods'] += 1
 
-    if module.count_classes > 1:
+    if module.count_classes >= 1:
         print('This module contains {count} {word_class}:'.format(
             count=module.count_classes,
             word_class=pluralize(module.count_classes, 'class', 'classes')))
