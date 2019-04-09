@@ -70,7 +70,8 @@ class Analyze(object):
             with open(self.path, 'r') as pyfile:
                 self.modules.append(Module(pyfile))
         elif os.path.isdir(self.path):
-            for pyfile in glob.glob('{path}/*.py'.format(path=self.path)):
+            for pyfile in glob.glob('{path}/**/*.py'.format(path=self.path),
+                                    recursive=True):
                 with open(pyfile) as module:
                     self.modules.append(Module(module))
         else:
