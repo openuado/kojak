@@ -9,8 +9,7 @@ from kojak.cli import classes
 from kojak.cli import imports
 from kojak.cli import summarize
 from kojak.common import is_valid_path, pluralize
-from kojak.utils import Analyze
-from kojak.utils import Module
+from kojak.models import Analyze, Module
 
 from sample import sample
 
