@@ -5,9 +5,7 @@ import tempfile
 import unittest
 
 from kojak.exceptions import KojakException
-from kojak.utils import Analyze
-from kojak.utils import Import
-from kojak.utils import Module
+from kojak.models import Analyze, Import, Module
 
 from sample import sample
 
