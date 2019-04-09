@@ -62,17 +62,17 @@ def classes(module):
         for func in module.get_functions(cls.node):
             all_class[cls.name].append('\t\t-{name}'.format(name=func.name))
 
-    print('This module contains {count} {word_class}:'.format(
-        count=module.count_classes,
-        word_class=pluralize(module.count_classes, 'class', 'classes')))
+    if module.count_classes > 1:
+        print('This module contains {count} {word_class}:'.format(
+            count=module.count_classes,
+            word_class=pluralize(module.count_classes, 'class', 'classes')))
+    else:
+        print("This module {module} doesn't contains class.".format(
+            module=module.path.name))
 
     for key, value in all_class.items():
         print('\t-{name}'.format(name=key))
         print('\n'.join(value))
-
-    if module.count_classes == 0:
-        print("This module {module} doesn't contains class.".format(
-            module=module.path.name))
 
 
 def summarize(analyze):
