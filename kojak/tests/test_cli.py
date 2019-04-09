@@ -48,8 +48,10 @@ class TestCLI(unittest.TestCase):
                 is_valid_path(module_path)
 
     def test_classes(self):
-        expected_output = "This module contains 2 classes:-Bar-run-bar-Foo"
-        expected_output2 = "This module contains 2 classes:-Foo-Bar-run-bar"
+        expected_output = "This module contains 2 classes:-The class Bar"\
+            " contains 2 methods-run-bar-The class Foo contains 0 method"
+        expected_output2 = "This module contains 2 classes:-The class Foo"\
+            " contains 0 method-The class Bar contains 2 methods-run-bar"
         captured_output = io.StringIO()
         sys.stdout = captured_output
         classes(self.module)
