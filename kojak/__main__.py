@@ -2,7 +2,7 @@ from sys import exit
 
 from kojak import cli
 from kojak.exceptions import KojakException
-from kojak.utils import Analyze
+from kojak.models import Analyze
 
 from pbr.version import VersionInfo
 
