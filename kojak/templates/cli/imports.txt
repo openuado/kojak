@@ -1,0 +1,14 @@
+{% for import in module.imports -%}
+{% if loop.first -%}
+{% trans count=module.imports|length %}
+Module import:
+{% pluralize %}
+Module imports:
+{% endtrans %}
+    {%- endif %}
+    {% if import.module -%}
+        From {{ import.module }} import {{ import.name }}{% if import.alias %}{{ import.alias }}{% endif %}
+    {%- else -%}
+        Import {{ import.name }}{% if import.alias %}{{ import.alias }}{% endif %}
+    {%- endif %}
+{%- endfor %}

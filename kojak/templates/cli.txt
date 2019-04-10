@@ -1,0 +1,28 @@
+{% for module in analyze.modules -%}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Module: {{ module }}
+{% trans count=module.imports|length -%}
+{{ count }} import
+{%- pluralize %}
+{{ count }} imports
+{%- endtrans -%}
+{% trans count=module.classes|length %}
+{{ count }} class
+{%- pluralize %}
+{{ count }} classes
+{%- endtrans %}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{% include 'cli/imports.txt' %}
+{% include 'cli/classes.txt' %}
+{% endfor -%}
+This project have:
+{%- trans count=analyze.imports -%}
+- {{ count }} import
+{% pluralize %}
+- {{ count }} imports
+{%- endtrans %}
+{%- trans count=analyze.classes -%}
+- {{ count }} class
+{% pluralize %}
+- {{ count }} classes
+{%- endtrans %}

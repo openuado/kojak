@@ -1,4 +1,4 @@
-sample = '''
+sample = """
 import requests
 import abc
 from foo import bar
@@ -15,4 +15,4 @@ class Bar:
 
 class Foo:
     pass
-'''
+"""
