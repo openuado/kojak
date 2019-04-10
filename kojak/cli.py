@@ -39,4 +39,4 @@ def argparser():
         action="store_true",
         help="Only display the kojak version number",
     )
-    return parser.parse_args()
+    return parser

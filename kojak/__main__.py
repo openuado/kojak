@@ -9,7 +9,7 @@ from pbr.version import VersionInfo
 
 
 def main():
-    args = cli.argparser()
+    args = cli.argparser().parse_args()
     version = VersionInfo("kojak")
     if args.version:
         print("kojak v{version}".format(version=version))
