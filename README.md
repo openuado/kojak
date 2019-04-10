@@ -4,6 +4,7 @@
 ![PyPI](https://img.shields.io/pypi/v/kojak.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/kojak.svg)
 ![PyPI - Status](https://img.shields.io/pypi/status/kojak.svg)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 Python projects analyzer
 
