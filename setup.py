@@ -1,7 +1,3 @@
 from setuptools import setup
 
-setup(
-    requires=['pbr'],
-    pbr=True,
-    long_description_content_type="text/markdown",
-)
+setup(pbr=True, long_description_content_type="text/markdown")
