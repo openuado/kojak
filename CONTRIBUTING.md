@@ -149,6 +149,20 @@ Security analyze:
 bandit -r kojak
 ```
 
+### Git hook
+
+First install the pre-commit project:
+```shell
+$ pip install pre-commit
+```
+
+Then install the hooks:
+```shell
+$ pre-commit install
+```
+Run this command only the first time you checkout the project.
+
+
 ### Pull Requests
 
 If everything work fine you can create your pull request.
