@@ -108,7 +108,9 @@ class TestAnalyze(unittest.TestCase):
         self.get_stats_for_single_module()
         with tempfile.TemporaryDirectory() as tmpdir:
             for el in self.fake_files:
-                fake = open("{dir}/{name}.py".format(dir=tmpdir, name=el), "w+")
+                fake = open(
+                    "{dir}/{name}.py".format(dir=tmpdir, name=el), "w+"
+                )
                 fake.write(sample)
             fake = open("{dir}/test.txt".format(dir=tmpdir), "w+")
 
@@ -134,19 +136,29 @@ class TestAnalyze(unittest.TestCase):
         return self.get_expected_modules_len() * self.classes_number
 
     def test_modules(self):
-        self.assertEqual(len(self.analyze.modules), self.get_expected_modules_len())
+        self.assertEqual(
+            len(self.analyze.modules), self.get_expected_modules_len()
+        )
 
     def test_module_imports(self):
-        self.assertEqual(len(self.analyze.modules[0].imports), self.imports_number)
+        self.assertEqual(
+            len(self.analyze.modules[0].imports), self.imports_number
+        )
 
     def test_module_classes(self):
-        self.assertEqual(len(self.analyze.modules[0].classes), self.classes_number)
+        self.assertEqual(
+            len(self.analyze.modules[0].classes), self.classes_number
+        )
 
     def test_modules_total_imports(self):
-        self.assertEqual(self.analyze.imports, self.get_expected_total_imports())
+        self.assertEqual(
+            self.analyze.imports, self.get_expected_total_imports()
+        )
 
     def test_modules_total_classes(self):
-        self.assertEqual(self.analyze.classes, self.get_expected_total_classes())
+        self.assertEqual(
+            self.analyze.classes, self.get_expected_total_classes()
+        )
 
     def test_analyze_on_single_file(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -167,4 +179,6 @@ class TestAnalyze(unittest.TestCase):
                 fake = "{dir}/fake".format(dir=tmpdir)
                 self.analyze = Analyze(fake)
             except KojakException as err:
-                self.assertEqual(str(err), "Path not found: {fake}".format(fake=fake))
+                self.assertEqual(
+                    str(err), "Path not found: {fake}".format(fake=fake)
+                )
