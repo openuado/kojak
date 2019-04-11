@@ -29,7 +29,7 @@ class Classes(list):
 
     def __str__(self):
         """Textual representation of classes."""
-        return "\n".join(self.name)
+        return "\n".join([el.name for el in self])
 
 
 class Imports(list):
@@ -49,7 +49,7 @@ class Imports(list):
 
     def __str__(self):
         """Textual representation of imports."""
-        return "\n".join(self.name)
+        return "\n".join([el.name for el in self])
 
 
 class Module:

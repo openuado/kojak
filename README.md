@@ -32,22 +32,14 @@ $ pip install -U kojak
 ## Usage
 
 ```shell
-$ kojak <path to your python file>
-
-List imports by the module:
-        -Import argparse
-        -From sys import exit
-        -From kojak.utils import get_classes
-
-List classes by the module:
-Class1
-    - method11
-    - method12
-    - method13
-Class2
-    - method21
-    - method22
-    - method23
+$ # analyze a complete module
+$ kojak ~/path/to/your/module/root/dir
+$ # analyze a single python file
+$ kojak ~/path/to/your/file.py
+$ # analyze the current working dir
+$ kojak
+$ # analyze the current working dir alternative
+$ kojak .
 ```
 
 ## Future improvements

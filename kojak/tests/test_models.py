@@ -6,10 +6,61 @@ import unittest
 
 from kojak.exceptions import KojakException
 from kojak.models import Analyze
+from kojak.models import Classes
 from kojak.models import Import
+from kojak.models import Imports
 from kojak.models import Module
+from kojak.models import get_functions
 
 from sample import sample
+
+
+class TestFunctions(unittest.TestCase):
+    def setUp(self):
+        self.pyfile = io.StringIO(sample)
+        self.pyfile.name = "/fake/module"
+        self.module = Module(self.pyfile)
+        self.node = self.module.root
+        self.functions = get_functions(self.node)
+
+    def test_len(self):
+        self.assertEqual(len(self.functions), 1)
+
+    def test_item(self):
+        self.assertEqual(self.functions[0].name, "baz")
+
+
+class TestImports(unittest.TestCase):
+    def setUp(self):
+        self.pyfile = io.StringIO(sample)
+        self.pyfile.name = "/fake/module"
+        self.module = Module(self.pyfile)
+        self.node = self.module.root
+        self.imports = Imports(self.node)
+
+    def test_init(self):
+        self.assertEqual(len(self.imports), 3)
+
+    def test_str(self):
+        self.assertEqual(str(self.imports), "requests\nabc\nbar")
+
+
+class TestClasses(unittest.TestCase):
+    def setUp(self):
+        self.pyfile = io.StringIO(sample)
+        self.pyfile.name = "/fake/module"
+        self.module = Module(self.pyfile)
+        self.node = self.module.root
+        self.classes = Classes(self.node)
+
+    def test_init(self):
+        self.assertEqual(len(self.classes), 2)
+
+    def test_str(self):
+        try:
+            self.assertEqual(str(self.classes), "Foo\nBar")
+        except AssertionError:
+            self.assertEqual(str(self.classes), "Bar\nFoo")
 
 
 class TestModules(unittest.TestCase):
@@ -24,6 +75,9 @@ class TestModules(unittest.TestCase):
 
     def test_name(self):
         self.assertTrue(self.module.name, self.pyfile.name)
+
+    def test_str(self):
+        self.assertTrue(str(self.module), self.pyfile.name)
 
     def test_get_imports(self):
         imports = self.module.imports
@@ -83,24 +137,28 @@ class TestAnalyze(unittest.TestCase):
 
     def test_modules(self):
         self.assertEqual(
-            len(self.analyze.modules),
-            self.get_expected_modules_len())
+            len(self.analyze.modules), self.get_expected_modules_len()
+        )
 
     def test_module_imports(self):
         self.assertEqual(
-            len(self.analyze.modules[0].imports), self.imports_number)
+            len(self.analyze.modules[0].imports), self.imports_number
+        )
 
     def test_module_classes(self):
         self.assertEqual(
-            len(self.analyze.modules[0].classes), self.classes_number)
+            len(self.analyze.modules[0].classes), self.classes_number
+        )
 
     def test_modules_total_imports(self):
         self.assertEqual(
-            self.analyze.imports, self.get_expected_total_imports())
+            self.analyze.imports, self.get_expected_total_imports()
+        )
 
     def test_modules_total_classes(self):
         self.assertEqual(
-            self.analyze.classes, self.get_expected_total_classes())
+            self.analyze.classes, self.get_expected_total_classes()
+        )
 
     def test_analyze_on_single_file(self):
         with tempfile.TemporaryDirectory() as tmpdir:
