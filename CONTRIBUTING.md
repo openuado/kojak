@@ -171,10 +171,10 @@ Before ensure you have [squash your commits](http://gitready.com/advanced/2009/0
 
 > Be sure to submit your pull request on the upstream `master` branch!
 
-By using [git-pull-request](https://github.com/jd/git-pull-request):
+By using [git-pull-request](https://github.com/Mergifyio/git-pull-request):
 ```shell
 $ pip install -U git-pull-request # if not installed
-$ git pull-request 
+$ git pull-request
 Forked repository: https://github.com/4383/kojak
 Force-pushing branch `somefeature' to remote `github'
 Counting objects: 5, done.
