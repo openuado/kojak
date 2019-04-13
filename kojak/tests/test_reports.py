@@ -12,6 +12,7 @@ from sample import sample
 
 class TestReport(unittest.TestCase):
     def setUp(self):
+        self.maxDiff = None
         with tempfile.TemporaryDirectory() as tmpdir:
             with open("{dir}/test.py".format(dir=tmpdir), "w+") as fake:
                 fake.write(sample)
@@ -22,19 +23,25 @@ class TestReport(unittest.TestCase):
     def test_report(self):
         expected_output = (
             "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-            "Module:{tmpdir}/test.py3imports2classes"
+            "Module:{tmpdir}/test.py3imports2functions2classes"
             "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-            "Moduleimports:ImportrequestsImportabcFromfoo"
-            "importbarModuleclasses:Bar-run-barFoo"
-            "Thisprojecthave:-3imports-2classes".format(tmpdir=self.tmpdir)
+            "Moduleimports:ImportrequestsImportabcFromfooimportbar"
+            "Modulefunctions:-foo-baz"
+            "Moduleclasses:Bar-run-barFoo"
+            "Thisprojecthave:-3imports-2functions-2classes".format(
+                tmpdir=self.tmpdir
+            )
         )
         expected_output2 = (
             "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-            "Module:{tmpdir}/test.py3imports2classes"
+            "Module:{tmpdir}/test.py3imports2fuctions2classes"
             "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-            "Moduleimports:ImportrequestsImportabcFromfoo"
-            "importbarModuleclasses:FooBar-run-bar"
-            "Thisprojecthave:-3imports-2classes".format(tmpdir=self.tmpdir)
+            "Moduleimports:ImportrequestsImportabcFromfooimportbar"
+            "Modulefunctions:-foo-baz"
+            "Moduleclasses:FooBar-run-bar"
+            "Thisprojecthave:-3imports-2functions-2classes".format(
+                tmpdir=self.tmpdir
+            )
         )
         captured_output = io.StringIO()
         sys.stdout = captured_output
