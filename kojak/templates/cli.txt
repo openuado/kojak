@@ -6,6 +6,13 @@ Module: {{ module }}
 {%- pluralize %}
 {{ count }} imports
 {%- endtrans -%}
+
+{% trans count=module.functions|length -%}
+{{ count }} function
+{%- pluralize %}
+{{ count }} functions
+{%- endtrans -%}
+
 {% trans count=module.classes|length %}
 {{ count }} class
 {%- pluralize %}
@@ -13,6 +20,7 @@ Module: {{ module }}
 {%- endtrans %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {% include 'cli/imports.txt' %}
+{% include 'cli/functions.txt' %}
 {% include 'cli/classes.txt' %}
 {% endfor -%}
 This project have:
@@ -21,6 +29,13 @@ This project have:
 {% pluralize %}
 - {{ count }} imports
 {%- endtrans %}
+
+{%- trans count=analyze.functions -%}
+- {{ count }} function
+{% pluralize %}
+- {{ count }} functions
+{%- endtrans %}
+
 {%- trans count=analyze.classes -%}
 - {{ count }} class
 {% pluralize %}

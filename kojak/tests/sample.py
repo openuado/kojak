@@ -3,6 +3,9 @@ import requests
 import abc
 from foo import bar
 
+def foo():
+    pass
+
 def baz():
     pass
 

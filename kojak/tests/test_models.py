@@ -24,10 +24,11 @@ class TestFunctions(unittest.TestCase):
         self.functions = get_functions(self.node)
 
     def test_len(self):
-        self.assertEqual(len(self.functions), 1)
+        self.assertEqual(len(self.functions), 2)
 
     def test_item(self):
-        self.assertEqual(self.functions[0].name, "baz")
+        self.assertEqual(self.functions[0].name, "foo")
+        self.assertEqual(self.functions[1].name, "baz")
 
 
 class TestImports(unittest.TestCase):

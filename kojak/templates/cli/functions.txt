@@ -1,0 +1,10 @@
+{% for function in module.functions -%}
+{% if loop.first -%}
+{% trans count=module.functions|length %}
+Module functions:
+{% pluralize %}
+Module functions:
+{% endtrans %}
+{%- endif %}
+    - {{ function.name }}
+{%- endfor %}
