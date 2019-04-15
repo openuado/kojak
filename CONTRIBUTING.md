@@ -149,6 +149,24 @@ Security analyze:
 bandit -r kojak
 ```
 
+### About black
+
+The project use [black](https://github.com/ambv/black) to format the code. When
+tox is run without parameter a check of black is maked. To run execute this:
+
+```shell
+$ tox -e black
+```
+
+By default the line length of black is 88 characters per line. Please configure
+your black editor extension to 79 characters. To run black manually use the
+line option:
+
+```shell
+$ black -l79 kojak/
+```
+In all case, a pre-commit hook is executed to format the code.
+
 ### Git hook
 
 First install the pre-commit project:
